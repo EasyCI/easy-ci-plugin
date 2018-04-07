@@ -1,3 +1,5 @@
+# -*- coding: UTF-8 -*-
+
 import subprocess
 import sys
 
@@ -13,9 +15,11 @@ triggerBranch = sys.argv[5]
 # 待执行命令列表
 cmd1 = 'rm -rf ${HOME}/easy-ci-workspace/' + commonParameter1_flowId
 cmd2 = 'git clone -b ' + triggerBranch + ' ' + cloneUrl + ' ${HOME}/easy-ci-workspace/' + commonParameter1_flowId + '/' + commonParameter2_repoName
+cmd3 = 'du -sh'
 
 # 依次执行上述命令
 subprocess.call(cmd1, shell=True)
-log = subprocess.call(cmd2, shell=True)
+subprocess.call(cmd2, shell=True)
+log = subprocess.call(cmd3, shell=True)
 
 print(log)

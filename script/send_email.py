@@ -1,3 +1,5 @@
+# -*- coding: UTF-8 -*-
+
 import smtplib
 import sys
 from email.header import Header
@@ -10,22 +12,25 @@ commonParameter3_platform = sys.argv[3]
 
 # 私有参数列表
 emailAddress = sys.argv[4]
+previewUrl = 'UNKNOWN'
+if len(sys.argv) >= 6:
+    previewUrl = sys.argv[5]
 
 # 以下邮件代发服务器账号仅供测试
 # 此处请填写成自己的邮件代发服务器配置（基于SMTP协议）
-mail_host = "smtp.qq.com"
+mail_host = 'smtp.qq.com'
 server_port = 465
-mail_user = "1600063551@qq.com"
-mail_pass = "qoxajqvfwthdbaba"
+mail_user = 'easyci@qq.com'
+mail_pass = 'mnjubtchvdmujcgg'
 
 sender = mail_user
 receivers = [emailAddress]
 
-emailMsg = "<center><h2>项目构建成功</h2></center><center><p><a href=\"" + parameter3_previewUrl + "\" style=\"color:red\">点击预览项目</a></p></center>"
+emailMsg = "<center><h2>项目构建成功</h2></center><center><p><a href=\"" + previewUrl + "\" style=\"color:red\">点击预览项目</a></p></center>"
 message = MIMEText(emailMsg, 'html', 'utf-8')
-message['From'] = Header("CI-服务器 <" + mail_user + ">", 'utf-8')
-message['To'] = Header("<" + emailAddress + ">", 'utf-8')
-subject = "项目" + commonParameter2_repoName + "-任务构建通知"
+message['From'] = Header('EasyCI <' + mail_user + '>', 'utf-8')
+message['To'] = Header('<' + emailAddress + '>', 'utf-8')
+subject = '项目「' + commonParameter2_repoName + '」任务构建通知'
 message['Subject'] = Header(subject, 'utf-8')
 
 try:
@@ -33,8 +38,6 @@ try:
     smtpObj.connect(mail_host, server_port)
     smtpObj.login(mail_user, mail_pass)
     smtpObj.sendmail(sender, receivers, message.as_string())
-    print
-    "Send Success\n0"
+    print('Send Success\n0')
 except smtplib.SMTPException:
-    print
-    "Error: Send Failed\n401"
+    print('Error: Send Failed\n401')
