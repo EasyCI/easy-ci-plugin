@@ -37,9 +37,13 @@ token = temp["cert"]["binary"]["token"]
 payload = (
     ('key', key), ('token', token), ('x:name', commonParameter2_repoName), ('x:version', '1.0'), ('x:build', '1'),
     ('x:changelog', firChangeLog))
-apkFile = {'file': open(
-    userHomePath + '/easy-ci-workspace/' + commonParameter1_flowId + '/' +
-    commonParameter2_repoName + '/app/build/outputs/apk/app-debug.apk', 'rb')}
+try:
+    outputFile = open(userHomePath + '/easy-ci-workspace/' + commonParameter1_flowId + '/' +
+                      commonParameter2_repoName + '/app/build/outputs/apk/app-debug.apk', 'rb')
+except FileNotFoundError:
+    outputFile = open(userHomePath + '/easy-ci-workspace/' + commonParameter1_flowId + '/' +
+                      commonParameter2_repoName + '/app/build/outputs/apk/debug/app-debug.apk', 'rb')
+apkFile = {'file': outputFile}
 r = requests.post('https://upload.qbox.me', data=payload, files=apkFile)
 
 temp = json.loads(r.text)
