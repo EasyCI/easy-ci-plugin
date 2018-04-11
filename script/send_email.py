@@ -13,8 +13,10 @@ commonParameter3_platform = sys.argv[3]
 # 私有参数列表
 emailAddress = sys.argv[4]
 previewUrl = 'UNKNOWN'
+showButton = ''
 if len(sys.argv) >= 6:
     previewUrl = sys.argv[5]
+    showButton = '点击预览项目'
 
 # 以下邮件代发服务器账号仅供测试
 # 此处请填写成自己的邮件代发服务器配置（基于SMTP协议）
@@ -26,7 +28,7 @@ mail_pass = 'mnjubtchvdmujcgg'
 sender = mail_user
 receivers = [emailAddress]
 
-emailMsg = "<center><h2>项目构建成功</h2></center><center><p><a href=\"" + previewUrl + "\" style=\"color:red\">点击预览项目</a></p></center>"
+emailMsg = "<center><h2>「" + commonParameter2_repoName + "」仓库项目构建结束</h2></center><center><p><a href=\"" + previewUrl + "\" style=\"color:red\">" + showButton + "</a></p></center>"
 message = MIMEText(emailMsg, 'html', 'utf-8')
 message['From'] = Header('EasyCI <' + mail_user + '>', 'utf-8')
 message['To'] = Header('<' + emailAddress + '>', 'utf-8')
