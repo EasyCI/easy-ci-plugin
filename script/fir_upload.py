@@ -27,7 +27,7 @@ for currentLine in buildGradleFile.readlines():
         break
 
 headers = {"Content-Type": "application/json"}
-payload = '{\"type\" : \"' + commonParameter3_platform + '\",\"bundle_id\" : \"' + bundleId + '\",\"api_token\" : \"' + firApiToken + '\"}'
+payload = '{\"type\" : \"' + commonParameter3_platform.lower() + '\",\"bundle_id\" : \"' + bundleId + '\",\"api_token\" : \"' + firApiToken + '\"}'
 r = requests.post("http://api.fir.im/apps", headers=headers, data=payload)
 
 temp = json.loads(r.text)
@@ -43,6 +43,6 @@ apkFile = {'file': open(
 r = requests.post('https://upload.qbox.me', data=payload, files=apkFile)
 
 temp = json.loads(r.text)
-download_url = temp["download_url"]
+download_url = temp['download_url']
 
-print("preview_url : " + preview_url + "\n" + "download_url : " + download_url + "\n0")
+print('preview_url : ' + preview_url + '\n' + 'download_url : ' + download_url + '\n0')
