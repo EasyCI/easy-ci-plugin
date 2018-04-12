@@ -7,15 +7,16 @@ from email.mime.text import MIMEText
 
 # 公有参数列表
 commonParameter1_flowId = sys.argv[1]
-commonParameter2_repoName = sys.argv[2]
-commonParameter3_platform = sys.argv[3]
+commonParameter1_taskId = sys.argv[2]
+commonParameter2_repoName = sys.argv[3]
+commonParameter3_platform = sys.argv[4]
 
 # 私有参数列表
-emailAddress = sys.argv[4]
+emailAddress = sys.argv[5]
 previewUrl = 'UNKNOWN'
 showButton = ''
-if len(sys.argv) >= 6:
-    previewUrl = sys.argv[5]
+if len(sys.argv) >= 7:
+    previewUrl = sys.argv[6]
     showButton = '点击预览项目'
 
 # 以下邮件代发服务器账号仅供测试

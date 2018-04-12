@@ -8,17 +8,20 @@ import requests
 
 # 公有参数列表
 commonParameter1_flowId = sys.argv[1]
-commonParameter2_repoName = sys.argv[2]
-commonParameter3_platform = sys.argv[3]
+commonParameter1_taskId = sys.argv[2]
+commonParameter2_repoName = sys.argv[3]
+commonParameter3_platform = sys.argv[4]
 
 # 私有参数列表
-firApiToken = sys.argv[4]
-firChangeLog = sys.argv[5]
+firApiToken = sys.argv[5]
+firChangeLog = sys.argv[6]
 
-# 寻找 Android 项目的 bundle_id
+# 寻找 Android 项目的 bundle_id，也就是包名
 bundleId = ''
 userHomePath = os.environ['HOME']
-appGradlePath = userHomePath + '/easy-ci-workspace/' + commonParameter1_flowId + '/' + commonParameter2_repoName + '/app/build.gradle'
+appGradlePath = userHomePath + '/easy-ci-workspace/' + \
+                commonParameter1_flowId + '/' + commonParameter1_taskId + '/' + \
+                commonParameter2_repoName + '/app/build.gradle'
 buildGradleFile = open(appGradlePath, 'r')
 for currentLine in buildGradleFile.readlines():
     if currentLine.strip().split('"')[0].strip() == 'applicationId':
@@ -38,11 +41,13 @@ payload = (
     ('key', key), ('token', token), ('x:name', commonParameter2_repoName), ('x:version', '1.0'), ('x:build', '1'),
     ('x:changelog', firChangeLog))
 try:
-    outputFile = open(userHomePath + '/easy-ci-workspace/' + commonParameter1_flowId + '/' +
-                      commonParameter2_repoName + '/app/build/outputs/apk/app-debug.apk', 'rb')
+    outputFile = open(
+        userHomePath + '/easy-ci-workspace/' + commonParameter1_flowId + '/' + commonParameter1_taskId + '/' +
+        commonParameter2_repoName + '/app/build/outputs/apk/app-debug.apk', 'rb')
 except FileNotFoundError:
-    outputFile = open(userHomePath + '/easy-ci-workspace/' + commonParameter1_flowId + '/' +
-                      commonParameter2_repoName + '/app/build/outputs/apk/debug/app-debug.apk', 'rb')
+    outputFile = open(
+        userHomePath + '/easy-ci-workspace/' + commonParameter1_flowId + '/' + commonParameter1_taskId + '/' +
+        commonParameter2_repoName + '/app/build/outputs/apk/debug/app-debug.apk', 'rb')
 apkFile = {'file': outputFile}
 r = requests.post('https://upload.qbox.me', data=payload, files=apkFile)
 
