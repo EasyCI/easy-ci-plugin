@@ -13,10 +13,21 @@ commonParameter3_platform = sys.argv[4]
 
 # 私有参数列表
 emailAddress = sys.argv[5]
+
+buildResult = ''
+messageColor = 'black'
+isSuccess = sys.argv[6]
+if isSuccess == 'true':
+    buildResult = '成功！'
+    messageColor = 'green'
+else:
+    buildResult = '失败！'
+    messageColor = 'red'
+
 previewUrl = 'UNKNOWN'
 showButton = ''
-if len(sys.argv) >= 7:
-    previewUrl = sys.argv[6]
+if len(sys.argv) >= 8:
+    previewUrl = sys.argv[7]
     showButton = '点击预览项目'
 
 # 以下邮件代发服务器账号仅供测试
@@ -29,7 +40,7 @@ mail_pass = 'mnjubtchvdmujcgg'
 sender = mail_user
 receivers = [emailAddress]
 
-emailMsg = "<center><h2>「" + commonParameter2_repoName + "」仓库项目构建结束</h2></center><center><p><a href=\"" + previewUrl + "\" style=\"color:red\">" + showButton + "</a></p></center>"
+emailMsg = "<center><h2 style=\"color: " + messageColor + "\">「" + commonParameter2_repoName + "」仓库项目构建" + buildResult + "</h2></center><center><p><a href=\"" + previewUrl + "\" style=\"color:red\">" + showButton + "</a></p></center>"
 message = MIMEText(emailMsg, 'html', 'utf-8')
 message['From'] = Header('EasyCI <' + mail_user + '>', 'utf-8')
 message['To'] = Header('<' + emailAddress + '>', 'utf-8')
