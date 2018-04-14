@@ -14,7 +14,7 @@ commonParameter3_platform = sys.argv[4]
 file = open(os.environ['HOME'] + '/easy-ci-workspace/' +
             commonParameter1_flowId + '/' + commonParameter1_taskId + '/' +
             commonParameter2_repoName + '/local.properties', 'w')
-file.write('sdk.dir=/home/lpy/.AndroidSdk')
+file.write('sdk.dir=' + os.environ['HOME'] + '/.AndroidSdk')
 file.close()
 
 # 待执行命令列表
